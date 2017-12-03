@@ -82,4 +82,8 @@ func query(args []string) {
 	revealTimeoutSecs, err := nx.MRevealTimeoutSecs(callOpts)
 	must(err)
 	log.Printf("reveal timeout: %s secs", revealTimeoutSecs)
+
+	minGuess, err := nx.MMinGuess(callOpts)
+	must(err)
+	log.Printf("min guess: %s", minGuess)
 }
