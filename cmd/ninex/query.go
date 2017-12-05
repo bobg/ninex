@@ -1,7 +1,9 @@
 package main
 
 import (
+	"fmt"
 	"log"
+	"math/big"
 	"time"
 
 	"github.com/ethereum/go-ethereum/accounts/abi/bind"
@@ -31,17 +33,22 @@ func query(args []string) {
 	must(err)
 	log.Printf("bank: %s", bank)
 
-	escrow, err := nx.MEscrow(callOpts)
+	numGuessesBig, err := nx.NumGuesses(callOpts)
 	must(err)
-	log.Printf("escrow: %s", escrow)
-
-	guessedBy, err := nx.MGuessedBy(callOpts)
-	must(err)
-	log.Printf("guessed by: %x", guessedBy[:])
-
-	guessedDigits, err := nx.MGuessedDigits(callOpts)
-	must(err)
-	log.Printf("guessed digits: %s", string(guessedDigits))
+	if !numGuessesBig.IsInt64() {
+		panic(fmt.Errorf("num guesses %s is not an int64", numGuessesBig))
+	}
+	numGuesses := numGuessesBig.Int64()
+	if numGuesses > 0 {
+		log.Print("guesses:")
+		for i := int64(0); i < numGuesses; i++ {
+			guess, err := nx.MGuesses(callOpts, big.NewInt(i))
+			must(err)
+			log.Printf("  {guesser: %x", guess.Guesser[:])
+			log.Printf("   digits: %s", string(guess.Digits))
+			log.Printf("   escrow: %s}", guess.Escrow)
+		}
+	}
 
 	commitmentSetTime, err := nx.MCommitmentSetTime(callOpts)
 	must(err)
@@ -51,12 +58,20 @@ func query(args []string) {
 		log.Printf("commitment-set time: %s", time.Unix(mustInt64(commitmentSetTime), 0))
 	}
 
-	guessedTime, err := nx.MGuessedTime(callOpts)
+	firstGuessTime, err := nx.MFirstGuessTime(callOpts)
 	must(err)
-	if guessedTime.Sign() == 0 {
-		log.Print("guessed time: <unset>")
+	if firstGuessTime.Sign() == 0 {
+		log.Print("first-guess time: <unset>")
 	} else {
-		log.Printf("guessed time: %s", time.Unix(mustInt64(guessedTime), 0))
+		log.Printf("first-guess time: %s", time.Unix(mustInt64(firstGuessTime), 0))
+	}
+
+	lastGuessTime, err := nx.MLastGuessTime(callOpts)
+	must(err)
+	if lastGuessTime.Sign() == 0 {
+		log.Print("last-guess time: <unset>")
+	} else {
+		log.Printf("last-guess time: %s", time.Unix(mustInt64(lastGuessTime), 0))
 	}
 
 	revealedTime, err := nx.MRevealedTime(callOpts)
@@ -71,9 +86,13 @@ func query(args []string) {
 	must(err)
 	log.Printf("after commitment delay: %s secs", afterCommitmentDelaySecs)
 
-	afterGuessDelaySecs, err := nx.MAfterGuessDelaySecs(callOpts)
+	guessWindowSecs, err := nx.MGuessWindowSecs(callOpts)
 	must(err)
-	log.Printf("after guess delay: %s secs", afterGuessDelaySecs)
+	log.Printf("guess window: %s secs", guessWindowSecs)
+
+	afterLastGuessDelaySecs, err := nx.MAfterLastGuessDelaySecs(callOpts)
+	must(err)
+	log.Printf("after last-guess delay: %s secs", afterLastGuessDelaySecs)
 
 	afterRevealDelaySecs, err := nx.MAfterRevealDelaySecs(callOpts)
 	must(err)
@@ -83,7 +102,7 @@ func query(args []string) {
 	must(err)
 	log.Printf("reveal timeout: %s secs", revealTimeoutSecs)
 
-	minGuess, err := nx.MMinGuess(callOpts)
+	minGuessWei, err := nx.MMinGuessWei(callOpts)
 	must(err)
-	log.Printf("min guess: %s", minGuess)
+	log.Printf("min guess: %s wei", minGuessWei)
 }

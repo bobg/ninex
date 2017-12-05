@@ -30,7 +30,7 @@ func reveal(args []string) {
 	nx, err := handleContract(*contractAddr, client)
 	must(err)
 
-	transactOpts.GasLimit = big.NewInt(1000000) // xxx
+	transactOpts.GasLimit = big.NewInt(5000000) // xxx
 
 	tx, err := nx.Reveal(transactOpts, []byte(*preimage))
 	must(err)

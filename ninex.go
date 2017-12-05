@@ -14,10 +14,10 @@ import (
 )
 
 // NinexABI is the input ABI used to generate the binding from.
-const NinexABI = "[{\"constant\":true,\"inputs\":[{\"name\":\"\",\"type\":\"address\"}],\"name\":\"mPayments\",\"outputs\":[{\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"mRevealedTime\",\"outputs\":[{\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"mCommitmentSetTime\",\"outputs\":[{\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"mGuessedDigits\",\"outputs\":[{\"name\":\"\",\"type\":\"bytes\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"amount\",\"type\":\"uint256\"}],\"name\":\"withdraw\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"val\",\"type\":\"uint256\"}],\"name\":\"setRevealTimeout\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"commitment\",\"type\":\"bytes32\"},{\"name\":\"digits\",\"type\":\"bytes\"}],\"name\":\"guess\",\"outputs\":[],\"payable\":true,\"stateMutability\":\"payable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"mRevealTimeoutSecs\",\"outputs\":[{\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"mCommitment\",\"outputs\":[{\"name\":\"\",\"type\":\"bytes32\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"val\",\"type\":\"uint256\"}],\"name\":\"setAfterGuessDelay\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"mGuessedTime\",\"outputs\":[{\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"mBank\",\"outputs\":[{\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"mMinGuess\",\"outputs\":[{\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"val\",\"type\":\"uint256\"}],\"name\":\"setAfterRevealDelay\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"val\",\"type\":\"uint256\"}],\"name\":\"setMinGuess\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[],\"name\":\"timeout\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"preimage\",\"type\":\"bytes\"}],\"name\":\"reveal\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"val\",\"type\":\"uint256\"}],\"name\":\"setAfterCommitmentDelay\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"mAfterGuessDelaySecs\",\"outputs\":[{\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"commitment\",\"type\":\"bytes32\"}],\"name\":\"setCommitment\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"mGuessedBy\",\"outputs\":[{\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[],\"name\":\"fund\",\"outputs\":[],\"payable\":true,\"stateMutability\":\"payable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"mAfterCommitmentDelaySecs\",\"outputs\":[{\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"mAfterRevealDelaySecs\",\"outputs\":[{\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"mOwner\",\"outputs\":[{\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"mEscrow\",\"outputs\":[{\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[],\"name\":\"collect\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"constructor\"}]"
+const NinexABI = "[{\"constant\":true,\"inputs\":[{\"name\":\"\",\"type\":\"address\"}],\"name\":\"mPayments\",\"outputs\":[{\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"mRevealedTime\",\"outputs\":[{\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"mCommitmentSetTime\",\"outputs\":[{\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"val\",\"type\":\"uint256\"}],\"name\":\"setMinGuessWei\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"mGuessWindowSecs\",\"outputs\":[{\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"amount\",\"type\":\"uint256\"}],\"name\":\"withdraw\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"val\",\"type\":\"uint256\"}],\"name\":\"setRevealTimeout\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"commitment\",\"type\":\"bytes32\"},{\"name\":\"digits\",\"type\":\"bytes\"}],\"name\":\"guess\",\"outputs\":[],\"payable\":true,\"stateMutability\":\"payable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"mRevealTimeoutSecs\",\"outputs\":[{\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"mAfterLastGuessDelaySecs\",\"outputs\":[{\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"mCommitment\",\"outputs\":[{\"name\":\"\",\"type\":\"bytes32\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"mFirstGuessTime\",\"outputs\":[{\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"mBank\",\"outputs\":[{\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"val\",\"type\":\"uint256\"}],\"name\":\"setGuessWindow\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"val\",\"type\":\"uint256\"}],\"name\":\"setAfterRevealDelay\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[],\"name\":\"timeout\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"preimage\",\"type\":\"bytes\"}],\"name\":\"reveal\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"val\",\"type\":\"uint256\"}],\"name\":\"setAfterCommitmentDelay\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"commitment\",\"type\":\"bytes32\"}],\"name\":\"setCommitment\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[],\"name\":\"fund\",\"outputs\":[],\"payable\":true,\"stateMutability\":\"payable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"mMinGuessWei\",\"outputs\":[{\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"mAfterCommitmentDelaySecs\",\"outputs\":[{\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"val\",\"type\":\"uint256\"}],\"name\":\"setAfterLastGuessDelay\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"numGuesses\",\"outputs\":[{\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"mAfterRevealDelaySecs\",\"outputs\":[{\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"mOwner\",\"outputs\":[{\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[],\"name\":\"collect\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"mLastGuessTime\",\"outputs\":[{\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"name\":\"\",\"type\":\"uint256\"}],\"name\":\"mGuesses\",\"outputs\":[{\"name\":\"guesser\",\"type\":\"address\"},{\"name\":\"digits\",\"type\":\"bytes\"},{\"name\":\"escrow\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"constructor\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"name\":\"guesser\",\"type\":\"address\"},{\"indexed\":false,\"name\":\"commitment\",\"type\":\"bytes32\"},{\"indexed\":false,\"name\":\"digits\",\"type\":\"bytes\"},{\"indexed\":false,\"name\":\"stake\",\"type\":\"uint256\"}],\"name\":\"evGuess\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"name\":\"guesser\",\"type\":\"address\"},{\"indexed\":false,\"name\":\"value\",\"type\":\"uint256\"},{\"indexed\":false,\"name\":\"digits\",\"type\":\"bytes\"},{\"indexed\":false,\"name\":\"commitment\",\"type\":\"bytes32\"},{\"indexed\":false,\"name\":\"preimage\",\"type\":\"bytes\"}],\"name\":\"evWin\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"name\":\"guesser\",\"type\":\"address\"},{\"indexed\":false,\"name\":\"digits\",\"type\":\"bytes\"},{\"indexed\":false,\"name\":\"commitment\",\"type\":\"bytes32\"},{\"indexed\":false,\"name\":\"preimage\",\"type\":\"bytes\"}],\"name\":\"evLose\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"name\":\"guesser\",\"type\":\"address\"},{\"indexed\":false,\"name\":\"value\",\"type\":\"uint256\"}],\"name\":\"evWinByDefault\",\"type\":\"event\"}]"
 
 // NinexBin is the compiled bytecode used for deploying new contracts.
-const NinexBin = `0x6060604052341561000f57600080fd5b60008054600160a060020a033316600160a060020a03199091161781556102586009819055600a819055600b5562015180600c55620f4240600d556002819055600381905560078190556008819055600655610baa806100706000396000f30060606040526004361061015e5763ffffffff7c01000000000000000000000000000000000000000000000000000000006000350416630342a929811461016357806309ecabf5146101945780630f6f2503146101a75780632c46c8f9146101ba5780632e1a7d4d1461024457806338b640851461025c5780633d58f99b146102725780633ef314aa146102895780634d4f604a1461029c578063503e114b146102af57806351091b33146102c5578063592dac2a146102d857806361a14c90146102eb5780636a2403b8146102fe5780636d5cfa581461031457806370dea79a1461032a57806372f12a5d1461033d5780639594c3dc1461035b578063a61ddc1714610371578063abe2003214610384578063b0b2d5d91461039a578063b60d4288146103c9578063c571598f146103d1578063d7b5412d146103e4578063dcda4bf3146103f7578063dfbec5901461040a578063e52253811461041d575b600080fd5b341561016e57600080fd5b610182600160a060020a0360043516610430565b60405190815260200160405180910390f35b341561019f57600080fd5b610182610442565b34156101b257600080fd5b610182610448565b34156101c557600080fd5b6101cd61044e565b60405160208082528190810183818151815260200191508051906020019080838360005b838110156102095780820151838201526020016101f1565b50505050905090810190601f1680156102365780820380516001836020036101000a031916815260200191505b509250505060405180910390f35b341561024f57600080fd5b61025a6004356104ec565b005b341561026757600080fd5b61025a600435610555565b61025a600480359060248035908101910135610582565b341561029457600080fd5b6101826106d7565b34156102a757600080fd5b6101826106dd565b34156102ba57600080fd5b61025a6004356106e3565b34156102d057600080fd5b610182610710565b34156102e357600080fd5b610182610716565b34156102f657600080fd5b61018261071c565b341561030957600080fd5b61025a600435610722565b341561031f57600080fd5b61025a60043561074f565b341561033557600080fd5b61025a61077c565b341561034857600080fd5b61025a60048035602481019101356107ce565b341561036657600080fd5b61025a6004356109b6565b341561037c57600080fd5b6101826109e3565b341561038f57600080fd5b61025a6004356109e9565b34156103a557600080fd5b6103ad610a44565b604051600160a060020a03909116815260200160405180910390f35b61025a610a53565b34156103dc57600080fd5b610182610a5d565b34156103ef57600080fd5b610182610a63565b341561040257600080fd5b6103ad610a69565b341561041557600080fd5b610182610a78565b341561042857600080fd5b61025a610a7e565b600e6020526000908152604090205481565b60085481565b60065481565b60058054600181600116156101000203166002900480601f0160208091040260200160405190810160405280929190818152602001828054600181600116156101000203166002900480156104e45780601f106104b9576101008083540402835291602001916104e4565b820191906000526020600020905b8154815290600101906020018083116104c757829003601f168201915b505050505081565b60005433600160a060020a0390811691161461050757600080fd5b60025481111561051657600080fd5b600280548290039055600054600160a060020a031681156108fc0282604051600060405180830381858888f19350505050151561055257600080fd5b50565b60005433600160a060020a0390811691161461057057600080fd5b6003541561057d57600080fd5b600c55565b6000806000600354600014151561059857600080fd5b600654600090116105a857600080fd5b60018410156105b657600080fd5b604e8411156105c457600080fd5b600d543410156105d357600080fd5b600254346000198601600a0a81026009020393508311156105f357600080fd5b6009546006540142101561060657600080fd5b506001905060005b602081101561066d57600154816020811061062557fe5b1a60f860020a02600160f860020a031916868260208110151561064457fe5b1a60f860020a02600160f860020a031916141515610665576000915061066d565b60010161060e565b81151561067957600080fd5b6004805473ffffffffffffffffffffffffffffffffffffffff191633600160a060020a03161790556106ad60058686610ae3565b50506002805483900390555060038054909101340190555050426007555060006006819055600855565b600c5481565b60015481565b60005433600160a060020a039081169116146106fe57600080fd5b6003541561070b57600080fd5b600a55565b60075481565b60025481565b600d5481565b60005433600160a060020a0390811691161461073d57600080fd5b6003541561074a57600080fd5b600b55565b60005433600160a060020a0390811691161461076a57600080fd5b6003541561077757600080fd5b600d55565b6003546000901161078c57600080fd5b600c546007540142101561079f57600080fd5b60038054600454600160a060020a03166000908152600e60205260408120805490920190915590819055600755565b600080548190819033600160a060020a039081169116146107ee57600080fd5b604e84146107fb57600080fd5b600154600286866000604051602001526040518083838082843782019150509250505060206040518083038160008661646e5a03f1151561083b57600080fd5b5050604051805191909114905061085157600080fd5b600060035411156109a157600a546007540142101561086f57600080fd5b600c5460075401421061088157600080fd5b505060055460019150600260001961010083851615020190911604604e03805b604e81101561095f578484828181106108b657fe5b905090013560f860020a900460f860020a02600160f860020a031916600160f860020a031916600583830381546001816001161561010002031660029004811015156108fe57fe5b81546001161561091d5790600052602060002090602091828204019190065b9054901a60f860020a027fff000000000000000000000000000000000000000000000000000000000000001614610957576000925061095f565b6001016108a1565b821561098e57600354600454600160a060020a03166000908152600e602052604090208054909101905561099b565b6003546002805490910190555b60006003555b50504260085550506000600681905560075550565b60005433600160a060020a039081169116146109d157600080fd5b600354156109de57600080fd5b600955565b600a5481565b60005433600160a060020a03908116911614610a0457600080fd5b60035415610a1157600080fd5b60065415610a1e57600080fd5b600b5460085401421015610a3157600080fd5b6001554260065560006008819055600755565b600454600160a060020a031681565b6002805434019055565b60095481565b600b5481565b600054600160a060020a031681565b60035481565b600160a060020a0333166000908152600e60205260408120549081111561055257600160a060020a0333166000818152600e60205260408082209190915582156108fc0290839051600060405180830381858888f19350505050151561055257600080fd5b828054600181600116156101000203166002900490600052602060002090601f016020900481019282601f10610b245782800160ff19823516178555610b51565b82800160010185558215610b51579182015b82811115610b51578235825591602001919060010190610b36565b50610b5d929150610b61565b5090565b610b7b91905b80821115610b5d5760008155600101610b67565b905600a165627a7a72305820afbc354b109d7faef1842c0732745d512ad52bd75b00a901fdf0969829595c610029`
+const NinexBin = `0x6060604052341561000f57600080fd5b60008054600160a060020a033316600160a060020a03199091161781556102586008819055610384600955600a819055600b5562015180600c55620f4240600d556002819055600481905560058190556006819055600755611253806100766000396000f3006060604052600436106101745763ffffffff7c01000000000000000000000000000000000000000000000000000000006000350416630342a929811461017957806309ecabf5146101aa5780630f6f2503146101bd578063196161fa146101d057806328453d6f146101e85780632e1a7d4d146101fb57806338b64085146102115780633d58f99b146102275780633ef314aa1461023e5780634ae800f0146102515780634d4f604a14610264578063525b6b7c14610277578063592dac2a1461028a578063663ae0281461029d5780636a2403b8146102b357806370dea79a146102c957806372f12a5d146102dc5780639594c3dc146102fa578063abe2003214610310578063b60d428814610326578063b8df37eb1461032e578063c571598f14610341578063cb18c64314610354578063d659d9a51461036a578063d7b5412d1461037d578063dcda4bf314610390578063e5225381146103bf578063e66c3791146103d2578063f33fffd8146103e5575b600080fd5b341561018457600080fd5b610198600160a060020a036004351661049b565b60405190815260200160405180910390f35b34156101b557600080fd5b6101986104ad565b34156101c857600080fd5b6101986104b3565b34156101db57600080fd5b6101e66004356104b9565b005b34156101f357600080fd5b6101986104e6565b341561020657600080fd5b6101e66004356104ec565b341561021c57600080fd5b6101e6600435610555565b6101e6600480359060248035908101910135610582565b341561024957600080fd5b6101986107f3565b341561025c57600080fd5b6101986107f9565b341561026f57600080fd5b6101986107ff565b341561028257600080fd5b610198610805565b341561029557600080fd5b61019861080b565b34156102a857600080fd5b6101e6600435610811565b34156102be57600080fd5b6101e660043561083e565b34156102d457600080fd5b6101e661086b565b34156102e757600080fd5b6101e660048035602481019101356109d8565b341561030557600080fd5b6101e6600435610f24565b341561031b57600080fd5b6101e6600435610f51565b6101e6610fcd565b341561033957600080fd5b610198610fd7565b341561034c57600080fd5b610198610fdd565b341561035f57600080fd5b6101e6600435610fe3565b341561037557600080fd5b610198611010565b341561038857600080fd5b610198611017565b341561039b57600080fd5b6103a361101d565b604051600160a060020a03909116815260200160405180910390f35b34156103ca57600080fd5b6101e661102c565b34156103dd57600080fd5b610198611091565b34156103f057600080fd5b6103fb600435611097565b604051600160a060020a0384168152604081018290526060602082018181528454600260001961010060018416150201909116049183018290529060808301908590801561048a5780601f1061045f5761010080835404028352916020019161048a565b820191906000526020600020905b81548152906001019060200180831161046d57829003601f168201915b505094505050505060405180910390f35b600e6020526000908152604090205481565b60075481565b60045481565b60005433600160a060020a039081169116146104d457600080fd5b600354156104e157600080fd5b600d55565b60095481565b60005433600160a060020a0390811691161461050757600080fd5b60025481111561051657600080fd5b600280548290039055600054600160a060020a031681156108fc0282604051600060405180830381858888f19350505050151561055257600080fd5b50565b60005433600160a060020a0390811691161461057057600080fd5b6003541561057d57600080fd5b600c55565b60008060008060045411151561059757600080fd5b600754156105a457600080fd5b600854600454014210156105b757600080fd5b60055415806105cb57506009546005540142105b15156105d657600080fd5b60018410156105e457600080fd5b604e8411156105f257600080fd5b600d5434101561060157600080fd5b600254346000198601600a0a810260090203935083111561062157600080fd5b506001905060005b602081101561068857600154816020811061064057fe5b1a60f860020a02600160f860020a031916868260208110151561065f57fe5b1a60f860020a02600160f860020a0319161415156106805760009150610688565b600101610629565b81151561069457600080fd5b60038054600181016106a683826110d2565b9160005260206000209060030201600060606040519081016040528033600160a060020a0316815260200189898080601f01602080910402602001604051908101604052818152929190602084018383808284375050509284525050503488016020909101529190508151815473ffffffffffffffffffffffffffffffffffffffff1916600160a060020a0391909116178155602082015181600101908051610753929160200190611103565b506040820151600291820155805486900390555050600554151561077657426005555b426006557f543732d2dc4e018310316a0d52a4331a936ee078134d9767f05d605d82394b6a3387878734604051600160a060020a0386168152602081018590526060810182905260806040820181815290820184905260a082018585808284378201915050965050505050505060405180910390a1505050505050565b600c5481565b600a5481565b60015481565b60055481565b60025481565b60005433600160a060020a0390811691161461082c57600080fd5b6003541561083957600080fd5b600955565b60005433600160a060020a0390811691161461085957600080fd5b6003541561086657600080fd5b600b55565b60008060045411151561087d57600080fd5b6005546000901161088d57600080fd5b6007541561089a57600080fd5b600c54600554014210156108ad57600080fd5b5060005b6003548110156109b35760038054829081106108c957fe5b906000526020600020906003020160020154600e60006003848154811015156108ee57fe5b6000918252602080832060039283020154600160a060020a0316845283019390935260409091019020805490920190915580547fd9c1674c23feb7f9dbb60dc6e16dc4e33d1ca6e6b9c1b714d5012c3b1ed138a691908390811061094e57fe5b60009182526020909120600391820201548154600160a060020a0390911691908490811061097857fe5b906000526020600020906003020160020154604051600160a060020a03909216825260208201526040908101905180910390a16001016108b1565b60006109c06003826110d2565b50506000600481905560058190556006819055600755565b6000805481908190819033600160a060020a039081169116146109fa57600080fd5b60045460009011610a0a57600080fd5b60075415610a1757600080fd5b604e8514610a2457600080fd5b6006541580610a395750600a54600654014210155b1515610a4457600080fd5b6005541580610a585750600c546005540142105b1515610a6357600080fd5b600154600287876000604051602001526040518083838082843782019150509250505060206040518083038160008661646e5a03f11515610aa357600080fd5b50506040518051919091149050610ab957600080fd5b600093505b600354841015610f0a57600380546001945085908110610ada57fe5b9060005260206000209060030201600101805460018160011615610100020316600290049050604e0391508190505b604e811015610be557858582818110610b1e57fe5b905090013560f860020a900460f860020a02600160f860020a031916600160f860020a031916600385815481101515610b5357fe5b90600052602060002090600302016001018383038154600181600116156101000203166002900481101515610b8457fe5b815460011615610ba35790600052602060002090602091828204019190065b9054901a60f860020a027fff000000000000000000000000000000000000000000000000000000000000001614610bdd5760009250610be5565b600101610b09565b8215610da9576003805485908110610bf957fe5b906000526020600020906003020160020154600e6000600387815481101515610c1e57fe5b6000918252602080832060039283020154600160a060020a0316845283019390935260409091019020805490920190915580547fecdca681b46dd2c71d2f728442e8955430aded87312b9982821b4155de89dd6a919086908110610c7e57fe5b60009182526020909120600391820201548154600160a060020a03909116919087908110610ca857fe5b906000526020600020906003020160020154600387815481101515610cc957fe5b90600052602060002090600302016001016001548a8a604051600160a060020a0387168152602081018690526060810184905260a06040820181815286546002610100600183161502600019019091160491830182905290608083019060c084019088908015610d7a5780601f10610d4f57610100808354040283529160200191610d7a565b820191906000526020600020905b815481529060010190602001808311610d5d57829003601f168201915b5050838103825284815260200185858082843782019150509850505050505050505060405180910390a1610eff565b6003805485908110610db757fe5b60009182526020909120600391820201600290810154815401905580547f74e5b6643f4d605ff096f44731b9ee5c64864f948d66cee07d1abdc8e581198c919086908110610e0157fe5b60009182526020909120600391820201548154600160a060020a03909116919087908110610e2b57fe5b90600052602060002090600302016001016001548989604051600160a060020a03861681526040810184905260806020820181815286546002610100600183161502600019019091160491830182905290606083019060a084019088908015610ed55780601f10610eaa57610100808354040283529160200191610ed5565b820191906000526020600020905b815481529060010190602001808311610eb857829003601f168201915b50508381038252848152602001858580828437820191505097505050505050505060405180910390a15b600190930192610abe565b6000610f176003826110d2565b5050426007555050505050565b60005433600160a060020a03908116911614610f3f57600080fd5b60035415610f4c57600080fd5b600855565b60005433600160a060020a03908116911614610f6c57600080fd5b60035415610f7957600080fd5b6004541580610f8a57506000600754115b1515610f9557600080fd5b6007541580610faa5750600b54600754014210155b1515610fb557600080fd5b60015542600455600060078190556005819055600655565b6002805434019055565b600d5481565b60085481565b60005433600160a060020a03908116911614610ffe57600080fd5b6003541561100b57600080fd5b600a55565b6003545b90565b600b5481565b600054600160a060020a031681565b600160a060020a0333166000908152600e60205260408120549081111561055257600160a060020a0333166000818152600e60205260408082209190915582156108fc0290839051600060405180830381858888f19350505050151561055257600080fd5b60065481565b60038054829081106110a557fe5b6000918252602090912060039091020180546002820154600160a060020a03909116925060019091019083565b8154818355818115116110fe576003028160030283600052602060002091820191016110fe9190611181565b505050565b828054600181600116156101000203166002900490600052602060002090601f016020900481019282601f1061114457805160ff1916838001178555611171565b82800160010185558215611171579182015b82811115611171578251825591602001919060010190611156565b5061117d9291506111c9565b5090565b61101491905b8082111561117d57805473ffffffffffffffffffffffffffffffffffffffff1916815560006111b960018301826111e3565b5060006002820155600301611187565b61101491905b8082111561117d57600081556001016111cf565b50805460018160011615610100020316600290046000825580601f106112095750610552565b601f01602090049060005260206000209081019061055291906111c95600a165627a7a7230582044021817e7b27ad1ecc227cada65cdbf725e24c1cc01f44e3130b944e9eea9c30029`
 
 // DeployNinex deploys a new Ethereum contract, binding an instance of Ninex to it.
 func DeployNinex(auth *bind.TransactOpts, backend bind.ContractBackend) (common.Address, *types.Transaction, *Ninex, error) {
@@ -185,30 +185,30 @@ func (_Ninex *NinexCallerSession) MAfterCommitmentDelaySecs() (*big.Int, error) 
 	return _Ninex.Contract.MAfterCommitmentDelaySecs(&_Ninex.CallOpts)
 }
 
-// MAfterGuessDelaySecs is a free data retrieval call binding the contract method 0xa61ddc17.
+// MAfterLastGuessDelaySecs is a free data retrieval call binding the contract method 0x4ae800f0.
 //
-// Solidity: function mAfterGuessDelaySecs() constant returns(uint256)
-func (_Ninex *NinexCaller) MAfterGuessDelaySecs(opts *bind.CallOpts) (*big.Int, error) {
+// Solidity: function mAfterLastGuessDelaySecs() constant returns(uint256)
+func (_Ninex *NinexCaller) MAfterLastGuessDelaySecs(opts *bind.CallOpts) (*big.Int, error) {
 	var (
 		ret0 = new(*big.Int)
 	)
 	out := ret0
-	err := _Ninex.contract.Call(opts, out, "mAfterGuessDelaySecs")
+	err := _Ninex.contract.Call(opts, out, "mAfterLastGuessDelaySecs")
 	return *ret0, err
 }
 
-// MAfterGuessDelaySecs is a free data retrieval call binding the contract method 0xa61ddc17.
+// MAfterLastGuessDelaySecs is a free data retrieval call binding the contract method 0x4ae800f0.
 //
-// Solidity: function mAfterGuessDelaySecs() constant returns(uint256)
-func (_Ninex *NinexSession) MAfterGuessDelaySecs() (*big.Int, error) {
-	return _Ninex.Contract.MAfterGuessDelaySecs(&_Ninex.CallOpts)
+// Solidity: function mAfterLastGuessDelaySecs() constant returns(uint256)
+func (_Ninex *NinexSession) MAfterLastGuessDelaySecs() (*big.Int, error) {
+	return _Ninex.Contract.MAfterLastGuessDelaySecs(&_Ninex.CallOpts)
 }
 
-// MAfterGuessDelaySecs is a free data retrieval call binding the contract method 0xa61ddc17.
+// MAfterLastGuessDelaySecs is a free data retrieval call binding the contract method 0x4ae800f0.
 //
-// Solidity: function mAfterGuessDelaySecs() constant returns(uint256)
-func (_Ninex *NinexCallerSession) MAfterGuessDelaySecs() (*big.Int, error) {
-	return _Ninex.Contract.MAfterGuessDelaySecs(&_Ninex.CallOpts)
+// Solidity: function mAfterLastGuessDelaySecs() constant returns(uint256)
+func (_Ninex *NinexCallerSession) MAfterLastGuessDelaySecs() (*big.Int, error) {
+	return _Ninex.Contract.MAfterLastGuessDelaySecs(&_Ninex.CallOpts)
 }
 
 // MAfterRevealDelaySecs is a free data retrieval call binding the contract method 0xd7b5412d.
@@ -315,134 +315,148 @@ func (_Ninex *NinexCallerSession) MCommitmentSetTime() (*big.Int, error) {
 	return _Ninex.Contract.MCommitmentSetTime(&_Ninex.CallOpts)
 }
 
-// MEscrow is a free data retrieval call binding the contract method 0xdfbec590.
+// MFirstGuessTime is a free data retrieval call binding the contract method 0x525b6b7c.
 //
-// Solidity: function mEscrow() constant returns(uint256)
-func (_Ninex *NinexCaller) MEscrow(opts *bind.CallOpts) (*big.Int, error) {
+// Solidity: function mFirstGuessTime() constant returns(uint256)
+func (_Ninex *NinexCaller) MFirstGuessTime(opts *bind.CallOpts) (*big.Int, error) {
 	var (
 		ret0 = new(*big.Int)
 	)
 	out := ret0
-	err := _Ninex.contract.Call(opts, out, "mEscrow")
+	err := _Ninex.contract.Call(opts, out, "mFirstGuessTime")
 	return *ret0, err
 }
 
-// MEscrow is a free data retrieval call binding the contract method 0xdfbec590.
+// MFirstGuessTime is a free data retrieval call binding the contract method 0x525b6b7c.
 //
-// Solidity: function mEscrow() constant returns(uint256)
-func (_Ninex *NinexSession) MEscrow() (*big.Int, error) {
-	return _Ninex.Contract.MEscrow(&_Ninex.CallOpts)
+// Solidity: function mFirstGuessTime() constant returns(uint256)
+func (_Ninex *NinexSession) MFirstGuessTime() (*big.Int, error) {
+	return _Ninex.Contract.MFirstGuessTime(&_Ninex.CallOpts)
 }
 
-// MEscrow is a free data retrieval call binding the contract method 0xdfbec590.
+// MFirstGuessTime is a free data retrieval call binding the contract method 0x525b6b7c.
 //
-// Solidity: function mEscrow() constant returns(uint256)
-func (_Ninex *NinexCallerSession) MEscrow() (*big.Int, error) {
-	return _Ninex.Contract.MEscrow(&_Ninex.CallOpts)
+// Solidity: function mFirstGuessTime() constant returns(uint256)
+func (_Ninex *NinexCallerSession) MFirstGuessTime() (*big.Int, error) {
+	return _Ninex.Contract.MFirstGuessTime(&_Ninex.CallOpts)
 }
 
-// MGuessedBy is a free data retrieval call binding the contract method 0xb0b2d5d9.
+// MGuessWindowSecs is a free data retrieval call binding the contract method 0x28453d6f.
 //
-// Solidity: function mGuessedBy() constant returns(address)
-func (_Ninex *NinexCaller) MGuessedBy(opts *bind.CallOpts) (common.Address, error) {
-	var (
-		ret0 = new(common.Address)
-	)
-	out := ret0
-	err := _Ninex.contract.Call(opts, out, "mGuessedBy")
-	return *ret0, err
-}
-
-// MGuessedBy is a free data retrieval call binding the contract method 0xb0b2d5d9.
-//
-// Solidity: function mGuessedBy() constant returns(address)
-func (_Ninex *NinexSession) MGuessedBy() (common.Address, error) {
-	return _Ninex.Contract.MGuessedBy(&_Ninex.CallOpts)
-}
-
-// MGuessedBy is a free data retrieval call binding the contract method 0xb0b2d5d9.
-//
-// Solidity: function mGuessedBy() constant returns(address)
-func (_Ninex *NinexCallerSession) MGuessedBy() (common.Address, error) {
-	return _Ninex.Contract.MGuessedBy(&_Ninex.CallOpts)
-}
-
-// MGuessedDigits is a free data retrieval call binding the contract method 0x2c46c8f9.
-//
-// Solidity: function mGuessedDigits() constant returns(bytes)
-func (_Ninex *NinexCaller) MGuessedDigits(opts *bind.CallOpts) ([]byte, error) {
-	var (
-		ret0 = new([]byte)
-	)
-	out := ret0
-	err := _Ninex.contract.Call(opts, out, "mGuessedDigits")
-	return *ret0, err
-}
-
-// MGuessedDigits is a free data retrieval call binding the contract method 0x2c46c8f9.
-//
-// Solidity: function mGuessedDigits() constant returns(bytes)
-func (_Ninex *NinexSession) MGuessedDigits() ([]byte, error) {
-	return _Ninex.Contract.MGuessedDigits(&_Ninex.CallOpts)
-}
-
-// MGuessedDigits is a free data retrieval call binding the contract method 0x2c46c8f9.
-//
-// Solidity: function mGuessedDigits() constant returns(bytes)
-func (_Ninex *NinexCallerSession) MGuessedDigits() ([]byte, error) {
-	return _Ninex.Contract.MGuessedDigits(&_Ninex.CallOpts)
-}
-
-// MGuessedTime is a free data retrieval call binding the contract method 0x51091b33.
-//
-// Solidity: function mGuessedTime() constant returns(uint256)
-func (_Ninex *NinexCaller) MGuessedTime(opts *bind.CallOpts) (*big.Int, error) {
+// Solidity: function mGuessWindowSecs() constant returns(uint256)
+func (_Ninex *NinexCaller) MGuessWindowSecs(opts *bind.CallOpts) (*big.Int, error) {
 	var (
 		ret0 = new(*big.Int)
 	)
 	out := ret0
-	err := _Ninex.contract.Call(opts, out, "mGuessedTime")
+	err := _Ninex.contract.Call(opts, out, "mGuessWindowSecs")
 	return *ret0, err
 }
 
-// MGuessedTime is a free data retrieval call binding the contract method 0x51091b33.
+// MGuessWindowSecs is a free data retrieval call binding the contract method 0x28453d6f.
 //
-// Solidity: function mGuessedTime() constant returns(uint256)
-func (_Ninex *NinexSession) MGuessedTime() (*big.Int, error) {
-	return _Ninex.Contract.MGuessedTime(&_Ninex.CallOpts)
+// Solidity: function mGuessWindowSecs() constant returns(uint256)
+func (_Ninex *NinexSession) MGuessWindowSecs() (*big.Int, error) {
+	return _Ninex.Contract.MGuessWindowSecs(&_Ninex.CallOpts)
 }
 
-// MGuessedTime is a free data retrieval call binding the contract method 0x51091b33.
+// MGuessWindowSecs is a free data retrieval call binding the contract method 0x28453d6f.
 //
-// Solidity: function mGuessedTime() constant returns(uint256)
-func (_Ninex *NinexCallerSession) MGuessedTime() (*big.Int, error) {
-	return _Ninex.Contract.MGuessedTime(&_Ninex.CallOpts)
+// Solidity: function mGuessWindowSecs() constant returns(uint256)
+func (_Ninex *NinexCallerSession) MGuessWindowSecs() (*big.Int, error) {
+	return _Ninex.Contract.MGuessWindowSecs(&_Ninex.CallOpts)
 }
 
-// MMinGuess is a free data retrieval call binding the contract method 0x61a14c90.
+// MGuesses is a free data retrieval call binding the contract method 0xf33fffd8.
 //
-// Solidity: function mMinGuess() constant returns(uint256)
-func (_Ninex *NinexCaller) MMinGuess(opts *bind.CallOpts) (*big.Int, error) {
+// Solidity: function mGuesses( uint256) constant returns(guesser address, digits bytes, escrow uint256)
+func (_Ninex *NinexCaller) MGuesses(opts *bind.CallOpts, arg0 *big.Int) (struct {
+	Guesser common.Address
+	Digits  []byte
+	Escrow  *big.Int
+}, error) {
+	ret := new(struct {
+		Guesser common.Address
+		Digits  []byte
+		Escrow  *big.Int
+	})
+	out := ret
+	err := _Ninex.contract.Call(opts, out, "mGuesses", arg0)
+	return *ret, err
+}
+
+// MGuesses is a free data retrieval call binding the contract method 0xf33fffd8.
+//
+// Solidity: function mGuesses( uint256) constant returns(guesser address, digits bytes, escrow uint256)
+func (_Ninex *NinexSession) MGuesses(arg0 *big.Int) (struct {
+	Guesser common.Address
+	Digits  []byte
+	Escrow  *big.Int
+}, error) {
+	return _Ninex.Contract.MGuesses(&_Ninex.CallOpts, arg0)
+}
+
+// MGuesses is a free data retrieval call binding the contract method 0xf33fffd8.
+//
+// Solidity: function mGuesses( uint256) constant returns(guesser address, digits bytes, escrow uint256)
+func (_Ninex *NinexCallerSession) MGuesses(arg0 *big.Int) (struct {
+	Guesser common.Address
+	Digits  []byte
+	Escrow  *big.Int
+}, error) {
+	return _Ninex.Contract.MGuesses(&_Ninex.CallOpts, arg0)
+}
+
+// MLastGuessTime is a free data retrieval call binding the contract method 0xe66c3791.
+//
+// Solidity: function mLastGuessTime() constant returns(uint256)
+func (_Ninex *NinexCaller) MLastGuessTime(opts *bind.CallOpts) (*big.Int, error) {
 	var (
 		ret0 = new(*big.Int)
 	)
 	out := ret0
-	err := _Ninex.contract.Call(opts, out, "mMinGuess")
+	err := _Ninex.contract.Call(opts, out, "mLastGuessTime")
 	return *ret0, err
 }
 
-// MMinGuess is a free data retrieval call binding the contract method 0x61a14c90.
+// MLastGuessTime is a free data retrieval call binding the contract method 0xe66c3791.
 //
-// Solidity: function mMinGuess() constant returns(uint256)
-func (_Ninex *NinexSession) MMinGuess() (*big.Int, error) {
-	return _Ninex.Contract.MMinGuess(&_Ninex.CallOpts)
+// Solidity: function mLastGuessTime() constant returns(uint256)
+func (_Ninex *NinexSession) MLastGuessTime() (*big.Int, error) {
+	return _Ninex.Contract.MLastGuessTime(&_Ninex.CallOpts)
 }
 
-// MMinGuess is a free data retrieval call binding the contract method 0x61a14c90.
+// MLastGuessTime is a free data retrieval call binding the contract method 0xe66c3791.
 //
-// Solidity: function mMinGuess() constant returns(uint256)
-func (_Ninex *NinexCallerSession) MMinGuess() (*big.Int, error) {
-	return _Ninex.Contract.MMinGuess(&_Ninex.CallOpts)
+// Solidity: function mLastGuessTime() constant returns(uint256)
+func (_Ninex *NinexCallerSession) MLastGuessTime() (*big.Int, error) {
+	return _Ninex.Contract.MLastGuessTime(&_Ninex.CallOpts)
+}
+
+// MMinGuessWei is a free data retrieval call binding the contract method 0xb8df37eb.
+//
+// Solidity: function mMinGuessWei() constant returns(uint256)
+func (_Ninex *NinexCaller) MMinGuessWei(opts *bind.CallOpts) (*big.Int, error) {
+	var (
+		ret0 = new(*big.Int)
+	)
+	out := ret0
+	err := _Ninex.contract.Call(opts, out, "mMinGuessWei")
+	return *ret0, err
+}
+
+// MMinGuessWei is a free data retrieval call binding the contract method 0xb8df37eb.
+//
+// Solidity: function mMinGuessWei() constant returns(uint256)
+func (_Ninex *NinexSession) MMinGuessWei() (*big.Int, error) {
+	return _Ninex.Contract.MMinGuessWei(&_Ninex.CallOpts)
+}
+
+// MMinGuessWei is a free data retrieval call binding the contract method 0xb8df37eb.
+//
+// Solidity: function mMinGuessWei() constant returns(uint256)
+func (_Ninex *NinexCallerSession) MMinGuessWei() (*big.Int, error) {
+	return _Ninex.Contract.MMinGuessWei(&_Ninex.CallOpts)
 }
 
 // MOwner is a free data retrieval call binding the contract method 0xdcda4bf3.
@@ -547,6 +561,32 @@ func (_Ninex *NinexSession) MRevealedTime() (*big.Int, error) {
 // Solidity: function mRevealedTime() constant returns(uint256)
 func (_Ninex *NinexCallerSession) MRevealedTime() (*big.Int, error) {
 	return _Ninex.Contract.MRevealedTime(&_Ninex.CallOpts)
+}
+
+// NumGuesses is a free data retrieval call binding the contract method 0xd659d9a5.
+//
+// Solidity: function numGuesses() constant returns(uint256)
+func (_Ninex *NinexCaller) NumGuesses(opts *bind.CallOpts) (*big.Int, error) {
+	var (
+		ret0 = new(*big.Int)
+	)
+	out := ret0
+	err := _Ninex.contract.Call(opts, out, "numGuesses")
+	return *ret0, err
+}
+
+// NumGuesses is a free data retrieval call binding the contract method 0xd659d9a5.
+//
+// Solidity: function numGuesses() constant returns(uint256)
+func (_Ninex *NinexSession) NumGuesses() (*big.Int, error) {
+	return _Ninex.Contract.NumGuesses(&_Ninex.CallOpts)
+}
+
+// NumGuesses is a free data retrieval call binding the contract method 0xd659d9a5.
+//
+// Solidity: function numGuesses() constant returns(uint256)
+func (_Ninex *NinexCallerSession) NumGuesses() (*big.Int, error) {
+	return _Ninex.Contract.NumGuesses(&_Ninex.CallOpts)
 }
 
 // Collect is a paid mutator transaction binding the contract method 0xe5225381.
@@ -654,25 +694,25 @@ func (_Ninex *NinexTransactorSession) SetAfterCommitmentDelay(val *big.Int) (*ty
 	return _Ninex.Contract.SetAfterCommitmentDelay(&_Ninex.TransactOpts, val)
 }
 
-// SetAfterGuessDelay is a paid mutator transaction binding the contract method 0x503e114b.
+// SetAfterLastGuessDelay is a paid mutator transaction binding the contract method 0xcb18c643.
 //
-// Solidity: function setAfterGuessDelay(val uint256) returns()
-func (_Ninex *NinexTransactor) SetAfterGuessDelay(opts *bind.TransactOpts, val *big.Int) (*types.Transaction, error) {
-	return _Ninex.contract.Transact(opts, "setAfterGuessDelay", val)
+// Solidity: function setAfterLastGuessDelay(val uint256) returns()
+func (_Ninex *NinexTransactor) SetAfterLastGuessDelay(opts *bind.TransactOpts, val *big.Int) (*types.Transaction, error) {
+	return _Ninex.contract.Transact(opts, "setAfterLastGuessDelay", val)
 }
 
-// SetAfterGuessDelay is a paid mutator transaction binding the contract method 0x503e114b.
+// SetAfterLastGuessDelay is a paid mutator transaction binding the contract method 0xcb18c643.
 //
-// Solidity: function setAfterGuessDelay(val uint256) returns()
-func (_Ninex *NinexSession) SetAfterGuessDelay(val *big.Int) (*types.Transaction, error) {
-	return _Ninex.Contract.SetAfterGuessDelay(&_Ninex.TransactOpts, val)
+// Solidity: function setAfterLastGuessDelay(val uint256) returns()
+func (_Ninex *NinexSession) SetAfterLastGuessDelay(val *big.Int) (*types.Transaction, error) {
+	return _Ninex.Contract.SetAfterLastGuessDelay(&_Ninex.TransactOpts, val)
 }
 
-// SetAfterGuessDelay is a paid mutator transaction binding the contract method 0x503e114b.
+// SetAfterLastGuessDelay is a paid mutator transaction binding the contract method 0xcb18c643.
 //
-// Solidity: function setAfterGuessDelay(val uint256) returns()
-func (_Ninex *NinexTransactorSession) SetAfterGuessDelay(val *big.Int) (*types.Transaction, error) {
-	return _Ninex.Contract.SetAfterGuessDelay(&_Ninex.TransactOpts, val)
+// Solidity: function setAfterLastGuessDelay(val uint256) returns()
+func (_Ninex *NinexTransactorSession) SetAfterLastGuessDelay(val *big.Int) (*types.Transaction, error) {
+	return _Ninex.Contract.SetAfterLastGuessDelay(&_Ninex.TransactOpts, val)
 }
 
 // SetAfterRevealDelay is a paid mutator transaction binding the contract method 0x6a2403b8.
@@ -717,25 +757,46 @@ func (_Ninex *NinexTransactorSession) SetCommitment(commitment [32]byte) (*types
 	return _Ninex.Contract.SetCommitment(&_Ninex.TransactOpts, commitment)
 }
 
-// SetMinGuess is a paid mutator transaction binding the contract method 0x6d5cfa58.
+// SetGuessWindow is a paid mutator transaction binding the contract method 0x663ae028.
 //
-// Solidity: function setMinGuess(val uint256) returns()
-func (_Ninex *NinexTransactor) SetMinGuess(opts *bind.TransactOpts, val *big.Int) (*types.Transaction, error) {
-	return _Ninex.contract.Transact(opts, "setMinGuess", val)
+// Solidity: function setGuessWindow(val uint256) returns()
+func (_Ninex *NinexTransactor) SetGuessWindow(opts *bind.TransactOpts, val *big.Int) (*types.Transaction, error) {
+	return _Ninex.contract.Transact(opts, "setGuessWindow", val)
 }
 
-// SetMinGuess is a paid mutator transaction binding the contract method 0x6d5cfa58.
+// SetGuessWindow is a paid mutator transaction binding the contract method 0x663ae028.
 //
-// Solidity: function setMinGuess(val uint256) returns()
-func (_Ninex *NinexSession) SetMinGuess(val *big.Int) (*types.Transaction, error) {
-	return _Ninex.Contract.SetMinGuess(&_Ninex.TransactOpts, val)
+// Solidity: function setGuessWindow(val uint256) returns()
+func (_Ninex *NinexSession) SetGuessWindow(val *big.Int) (*types.Transaction, error) {
+	return _Ninex.Contract.SetGuessWindow(&_Ninex.TransactOpts, val)
 }
 
-// SetMinGuess is a paid mutator transaction binding the contract method 0x6d5cfa58.
+// SetGuessWindow is a paid mutator transaction binding the contract method 0x663ae028.
 //
-// Solidity: function setMinGuess(val uint256) returns()
-func (_Ninex *NinexTransactorSession) SetMinGuess(val *big.Int) (*types.Transaction, error) {
-	return _Ninex.Contract.SetMinGuess(&_Ninex.TransactOpts, val)
+// Solidity: function setGuessWindow(val uint256) returns()
+func (_Ninex *NinexTransactorSession) SetGuessWindow(val *big.Int) (*types.Transaction, error) {
+	return _Ninex.Contract.SetGuessWindow(&_Ninex.TransactOpts, val)
+}
+
+// SetMinGuessWei is a paid mutator transaction binding the contract method 0x196161fa.
+//
+// Solidity: function setMinGuessWei(val uint256) returns()
+func (_Ninex *NinexTransactor) SetMinGuessWei(opts *bind.TransactOpts, val *big.Int) (*types.Transaction, error) {
+	return _Ninex.contract.Transact(opts, "setMinGuessWei", val)
+}
+
+// SetMinGuessWei is a paid mutator transaction binding the contract method 0x196161fa.
+//
+// Solidity: function setMinGuessWei(val uint256) returns()
+func (_Ninex *NinexSession) SetMinGuessWei(val *big.Int) (*types.Transaction, error) {
+	return _Ninex.Contract.SetMinGuessWei(&_Ninex.TransactOpts, val)
+}
+
+// SetMinGuessWei is a paid mutator transaction binding the contract method 0x196161fa.
+//
+// Solidity: function setMinGuessWei(val uint256) returns()
+func (_Ninex *NinexTransactorSession) SetMinGuessWei(val *big.Int) (*types.Transaction, error) {
+	return _Ninex.Contract.SetMinGuessWei(&_Ninex.TransactOpts, val)
 }
 
 // SetRevealTimeout is a paid mutator transaction binding the contract method 0x38b64085.

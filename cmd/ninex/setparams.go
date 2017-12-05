@@ -17,10 +17,11 @@ func setParams(args []string) {
 		keyfile, passphrase      = addKeyfilePassphrase(fs)
 		contractAddr             = addContract(fs)
 		afterCommitmentDelaySecs = fs.Uint("after-commitment-delay-secs", 0, "after-commitment delay")
-		afterGuessDelaySecs      = fs.Uint("after-guess-delay-secs", 0, "after-guess delay")
+		guessWindowSecs          = fs.Uint("guess-window-secs", 0, "guess window")
+		afterLastGuessDelaySecs  = fs.Uint("after-last-guess-delay-secs", 0, "after-last-guess delay")
 		afterRevealDelaySecs     = fs.Uint("after-reveal-delay-secs", 0, "after-reveal delay")
 		revealTimeoutSecs        = fs.Uint("reveal-timeout-secs", 0, "reveal timeout")
-		minGuessStr              = fs.String("min-guess", "", "min guess")
+		minGuessWeiStr           = fs.String("min-guess-wei", "", "min guess in wei")
 	)
 
 	err := fs.Parse(args)
@@ -46,13 +47,22 @@ func setParams(args []string) {
 		log.Printf("setting mAfterCommitmentDelaySecs: %s", receipt)
 	}
 
-	if *afterGuessDelaySecs > 0 {
-		tx, err := nx.SetAfterGuessDelay(transactOpts, asBigInt(afterGuessDelaySecs))
+	if *guessWindowSecs > 0 {
+		tx, err := nx.SetGuessWindow(transactOpts, asBigInt(guessWindowSecs))
 		must(err)
 
 		receipt, err := bind.WaitMined(ctx, client, tx)
 		must(err)
-		log.Printf("setting mAfterGuessDelaySecs: %s", receipt)
+		log.Printf("setting mGuessWindowSecs: %s", receipt)
+	}
+
+	if *afterLastGuessDelaySecs > 0 {
+		tx, err := nx.SetAfterLastGuessDelay(transactOpts, asBigInt(afterLastGuessDelaySecs))
+		must(err)
+
+		receipt, err := bind.WaitMined(ctx, client, tx)
+		must(err)
+		log.Printf("setting mAfterLastGuessDelaySecs: %s", receipt)
 	}
 
 	if *afterRevealDelaySecs > 0 {
@@ -73,19 +83,19 @@ func setParams(args []string) {
 		log.Printf("setting mRevealTimeoutSecs: %s", receipt)
 	}
 
-	if *minGuessStr != "" {
-		var minGuess big.Int
-		_, ok := minGuess.SetString(*minGuessStr, 10)
-		if !ok || minGuess.Sign() < 1 {
-			panic(fmt.Errorf("%s is not a positive base 10 number", *minGuessStr))
+	if *minGuessWeiStr != "" {
+		var minGuessWei big.Int
+		_, ok := minGuessWei.SetString(*minGuessWeiStr, 10)
+		if !ok || minGuessWei.Sign() < 1 {
+			panic(fmt.Errorf("%s is not a positive base 10 number", *minGuessWeiStr))
 		}
 
-		tx, err := nx.SetMinGuess(transactOpts, &minGuess)
+		tx, err := nx.SetMinGuessWei(transactOpts, &minGuessWei)
 		must(err)
 
 		receipt, err := bind.WaitMined(ctx, client, tx)
 		must(err)
-		log.Printf("setting mMinGuess: %s", receipt)
+		log.Printf("setting mMinGuessWei: %s", receipt)
 	}
 }
 

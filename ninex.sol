@@ -14,26 +14,31 @@ contract Ninex {
   // Invariant: bank+escrow+payments == contract balance
   uint public mBank;
 
-  // Amount locked up (potential payment) after a guess is made and
-  // before the outcome is revealed.
-  // Invariant: mEscrow>0 iff there is a pending guess.
-  uint public mEscrow;
+  struct Guess {
+    address guesser;
+    bytes   digits;
+    uint    escrow;
+  }
 
-  // When a guess is pending:
-  address public mGuessedBy;   // The guesser.
-  bytes public mGuessedDigits; // The digits of the guess.
+  Guess[] public mGuesses;
 
-  // At most one is nonzero.
+  // States:
+  //  0. all times zero [next: 1]
+  //  1. mCommitmentSetTime > 0 [next: 2 (guess)]
+  //  2. mCommitmentSetTime > 0 && mFirstGuessTime > 0 && mLastGuessTime > 0 [next: 0 (timeout) or 3 (reveal)]
+  //  3a. all times > 0 [next: 1 (setCommitment)]
   uint public mCommitmentSetTime;
-  uint public mGuessedTime;
+  uint public mFirstGuessTime;
+  uint public mLastGuessTime;
   uint public mRevealedTime;
 
   // Params
   uint public mAfterCommitmentDelaySecs; // No guess too soon after a new commitment.
-  uint public mAfterGuessDelaySecs;      // No reveal too soon after a guess.
+  uint public mGuessWindowSecs;          // After first guess, how long to accept additional guesses.
+  uint public mAfterLastGuessDelaySecs;  // No reveal too soon after the last guess.
   uint public mAfterRevealDelaySecs;     // No new commitment too soon after a reveal.
-  uint public mRevealTimeoutSecs;        // Right or wrong, guesser wins if no reveal in this interval.
-  uint public mMinGuess;                 // Smallest amount (in wei) to guess with.
+  uint public mRevealTimeoutSecs;        // Right or wrong, guessers win if no reveal in this interval after first guess.
+  uint public mMinGuessWei;              // Smallest amount (in wei) to guess with.
 
   // Payments for winning guesses accrue here.
   mapping (address => uint) public mPayments;
@@ -43,16 +48,18 @@ contract Ninex {
     mOwner = msg.sender;
 
     mAfterCommitmentDelaySecs = 600;
-    mAfterGuessDelaySecs      = 600;
+    mGuessWindowSecs          = 900;
+    mAfterLastGuessDelaySecs  = 600;
     mAfterRevealDelaySecs     = 600;
     mRevealTimeoutSecs        = 86400;
-    mMinGuess                 = 1000000;
+    mMinGuessWei              = 1000000;
 
     mBank              = 0;
-    mEscrow            = 0;
-    mGuessedTime       = 0;
-    mRevealedTime      = 0;
+
     mCommitmentSetTime = 0;
+    mFirstGuessTime    = 0;
+    mLastGuessTime     = 0;
+    mRevealedTime      = 0;
   }
 
   // Anyone may add funds to the bank at any time.
@@ -69,23 +76,28 @@ contract Ninex {
     mOwner.transfer(amount);
   }
 
-  function guess(bytes32 commitment, bytes digits) external payable {
-    // There must be no pending guess.
-    require (mEscrow == 0);
+  event evGuess(address guesser, bytes32 commitment, bytes digits, uint stake);
 
+  function guess(bytes32 commitment, bytes digits) external payable {
     // A commitment must be set.
     require (mCommitmentSetTime > 0);
 
+    // No preimage must be revealed.
+    require (mRevealedTime == 0);
+
+    // Must not guess too soon after a new commitment is set.
+    require (now >= (mCommitmentSetTime + mAfterCommitmentDelaySecs));
+
+    // Must guess within the guessing window.
+    require ((mFirstGuessTime == 0) || (now < (mFirstGuessTime + mGuessWindowSecs)));
+
     require (digits.length >= 1);
     require (digits.length <= 78);
-    require (msg.value >= mMinGuess);
+    require (msg.value >= mMinGuessWei);
 
     // Must not break the bank.
     var potentialPayment = msg.value * 9 * (10 ** (digits.length - 1)) - msg.value;
     require (potentialPayment <= mBank);
-
-    // Must not guess too soon after a new commitment is set.
-    require (now >= mCommitmentSetTime + mAfterCommitmentDelaySecs);
 
     // Must be guessing against the expected commitment.
     var sameCommitment = true;
@@ -97,77 +109,100 @@ contract Ninex {
     }
     require (sameCommitment);
 
-    mGuessedBy = msg.sender;
-    mGuessedDigits = digits;
+    mGuesses.push(Guess({
+      guesser: msg.sender,
+      digits: digits,
+      escrow: msg.value + potentialPayment
+    }));
 
     mBank -= potentialPayment;
-    mEscrow += potentialPayment;
-    mEscrow += msg.value;
 
-    mGuessedTime = now;
-    mCommitmentSetTime = 0;
-    mRevealedTime = 0;
+    if (mFirstGuessTime == 0) {
+      mFirstGuessTime = now;
+    }
+    mLastGuessTime = now;
+
+    evGuess(msg.sender, commitment, digits, msg.value);
   }
 
   function setCommitment(bytes32 commitment) external {
     require (msg.sender == mOwner);
-    require (mEscrow == 0);
-    require (mCommitmentSetTime == 0);
-    require (now >= mRevealedTime + mAfterRevealDelaySecs);
+    require (mGuesses.length == 0);
+    require ((mCommitmentSetTime == 0) || (mRevealedTime > 0));
+    require ((mRevealedTime == 0) || (now >= mRevealedTime + mAfterRevealDelaySecs));
 
     mCommitment = commitment;
 
     mCommitmentSetTime = now;
+
     mRevealedTime = 0;
-    mGuessedTime = 0;
+    mFirstGuessTime = 0;
+    mLastGuessTime = 0;
   }
+
+  event evWin(address guesser, uint value, bytes digits, bytes32 commitment, bytes preimage);
+  event evLose(address guesser, bytes digits, bytes32 commitment, bytes preimage);
 
   function reveal(bytes preimage) external {
     require (msg.sender == mOwner);
+    require (mCommitmentSetTime > 0);
+    require (mRevealedTime == 0);
 
     // Preimage must be 78 bytes long (each byte is a base-10 digit
     // for 3.3 bits of entropy; 78 bytes gives > 256 bits of entropy).
     require (preimage.length == 78);
 
+    // Don't reveal too soon after the last guess.
+    require ((mLastGuessTime == 0) || (now >= (mLastGuessTime + mAfterLastGuessDelaySecs)));
+
+    // Don't reveal after the timeout.
+    require ((mFirstGuessTime == 0) || (now < (mFirstGuessTime + mRevealTimeoutSecs)));
+
+    // Must reveal a valid preimage.
     require (sha256(preimage) == mCommitment);
 
-    if (mEscrow > 0) {
-      // A guess is pending.
-
-      require (now >= (mGuessedTime + mAfterGuessDelaySecs));
-      require (now < (mGuessedTime + mRevealTimeoutSecs));
-
+    for (uint i = 0; i < mGuesses.length; i++) {
       var digitsMatch = true;
-      var offset = 78 - mGuessedDigits.length;
-      for (uint i = offset; i < 78; i++) {
-        if (mGuessedDigits[i-offset] != preimage[i]) {
+      var offset = 78 - mGuesses[i].digits.length;
+      for (uint j = offset; j < 78; j++) {
+        if (mGuesses[i].digits[j-offset] != preimage[j]) {
           digitsMatch = false;
           break;
         }
       }
       if (digitsMatch) {
-        mPayments[mGuessedBy] += mEscrow;
+        mPayments[mGuesses[i].guesser] += mGuesses[i].escrow;
+        evWin(mGuesses[i].guesser, mGuesses[i].escrow, mGuesses[i].digits, mCommitment, preimage);
       } else {
-        mBank += mEscrow;
+        mBank += mGuesses[i].escrow;
+        evLose(mGuesses[i].guesser, mGuesses[i].digits, mCommitment, preimage);
       }
-      mEscrow = 0;
     }
+    mGuesses.length = 0;
 
     mRevealedTime = now;
-    mCommitmentSetTime = 0;
-    mGuessedTime = 0;
   }
+
+  event evWinByDefault(address guesser, uint value);
 
   // Anyone may move the escrowed amount to a payment after the reveal
   // timeout elapses.
   function timeout() external {
-    require (mEscrow > 0);
-    require (now >= (mGuessedTime + mRevealTimeoutSecs));
+    require (mCommitmentSetTime > 0);
+    require (mFirstGuessTime > 0);
+    require (mRevealedTime == 0);
+    require (now >= (mFirstGuessTime + mRevealTimeoutSecs));
 
-    mPayments[mGuessedBy] += mEscrow;
-    mEscrow = 0;
+    for (uint i = 0; i < mGuesses.length; i++) {
+      mPayments[mGuesses[i].guesser] += mGuesses[i].escrow;
+      evWinByDefault(mGuesses[i].guesser, mGuesses[i].escrow);
+    }
+    mGuesses.length = 0;
 
-    mGuessedTime = 0;
+    mCommitmentSetTime = 0;
+    mFirstGuessTime = 0;
+    mLastGuessTime = 0;
+    mRevealedTime = 0;
   }
 
   function collect() external {
@@ -180,31 +215,41 @@ contract Ninex {
 
   function setAfterCommitmentDelay(uint val) {
     require (msg.sender == mOwner);
-    require (mEscrow == 0);
+    require (mGuesses.length == 0);
     mAfterCommitmentDelaySecs = val;
   }
 
-  function setAfterGuessDelay(uint val) {
+  function setGuessWindow(uint val) {
     require (msg.sender == mOwner);
-    require (mEscrow == 0);
-    mAfterGuessDelaySecs = val;
+    require (mGuesses.length == 0);
+    mGuessWindowSecs = val;
+  }
+
+  function setAfterLastGuessDelay(uint val) {
+    require (msg.sender == mOwner);
+    require (mGuesses.length == 0);
+    mAfterLastGuessDelaySecs = val;
   }
 
   function setAfterRevealDelay(uint val) {
     require (msg.sender == mOwner);
-    require (mEscrow == 0);
+    require (mGuesses.length == 0);
     mAfterRevealDelaySecs = val;
   }
 
   function setRevealTimeout(uint val) {
     require (msg.sender == mOwner);
-    require (mEscrow == 0);
+    require (mGuesses.length == 0);
     mRevealTimeoutSecs = val;
   }
 
-  function setMinGuess(uint val) {
+  function setMinGuessWei(uint val) {
     require (msg.sender == mOwner);
-    require (mEscrow == 0);
-    mMinGuess = val;
+    require (mGuesses.length == 0);
+    mMinGuessWei = val;
+  }
+
+  function numGuesses() view returns (uint) {
+    return mGuesses.length;
   }
 }
