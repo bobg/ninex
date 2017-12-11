@@ -42,9 +42,7 @@ type (
 	}
 
 	// This must track the definition of evNewCommitment in ninex.sol
-	EvNewCommitment struct {
-		Commitment [32]byte
-	}
+	EvNewCommitment [32]byte
 
 	// This must track the definition of evRevealed in ninex.sol
 	EvRevealed struct {
@@ -70,7 +68,7 @@ func (ev *EvWinByDefault) String() string {
 }
 
 func (ev *EvNewCommitment) String() string {
-	return fmt.Sprintf("commitment: %x", ev.Commitment[:])
+	return fmt.Sprintf("commitment: %x", (*ev)[:])
 }
 
 func (ev *EvRevealed) String() string {

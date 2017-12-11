@@ -50,7 +50,7 @@ func filter(logCh <-chan types.Log, errCh <-chan error) {
 						err = abi.Unpack(ev, name, l.Data)
 						if err != nil {
 							id := e.Id()
-							log.Printf("failed to unpack %s event, id %x, tx %x, data %x", name, id[:], l.TxHash[:], l.Data)
+							log.Printf("failed to unpack %s event, id %x, tx %x, data %x: %s", name, id[:], l.TxHash[:], l.Data, err)
 						} else {
 							log.Printf("tx %x event %s [%s]", l.TxHash[:], name, ev)
 						}
