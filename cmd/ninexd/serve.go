@@ -1,0 +1,89 @@
+package main
+
+import (
+	"context"
+	"encoding/hex"
+	"html/template"
+	"log"
+	"net/http"
+	"path"
+)
+
+func serve(listen string, pingCh chan<- struct{}) {
+	mux := http.NewServeMux()
+	srv := &http.Server{
+		Addr:    listen,
+		Handler: mux,
+	}
+
+	mux.HandleFunc("/", serveHome)
+	mux.HandleFunc("/ui.js", func(w http.ResponseWriter, r *http.Request) {
+		http.ServeFile(w, r, path.Join(*contentDir, "ui.js"))
+	})
+	if setCookiePath != "" {
+		mux.HandleFunc(setCookiePath, setCookie)
+		mux.HandleFunc("/admin/shutdown", shutdown(srv))
+		mux.HandleFunc("/admin/ping", ping(pingCh))
+	}
+
+	err := srv.ListenAndServe()
+	if err == http.ErrServerClosed {
+		log.Print("orderly shutdown")
+		return
+	}
+	log.Fatal(err)
+}
+
+func shutdown(srv *http.Server) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		ctx := context.Background()
+		err := srv.Shutdown(ctx)
+		if err != nil {
+			httpErr(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+	}
+}
+
+func ping(pingCh chan<- struct{}) http.HandlerFunc {
+	return func(http.ResponseWriter, *http.Request) {
+		pingCh <- struct{}{}
+	}
+}
+
+func serveHome(w http.ResponseWriter, r *http.Request) {
+	tmplName := path.Join(*contentDir, "home.tmpl")
+	tmpl, err := template.ParseFiles(tmplName)
+	if err != nil {
+		httpErr(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	tmplData := map[string]interface{}{
+		"contract_addr": hex.EncodeToString(contractAddr[:]),
+	}
+	err = tmpl.Execute(w, tmplData)
+	if err != nil {
+		httpErr(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+}
+
+var setCookieEnabled = true
+
+func setCookie(w http.ResponseWriter, r *http.Request) {
+	if !setCookieEnabled {
+		httpErr(w, "setcookie endpoint disabled", http.StatusForbidden)
+		return
+	}
+	cookie := &http.Cookie{
+		Name:  "admin",
+		Value: hex.EncodeToString(adminSecret[:]),
+	}
+	http.SetCookie(w, cookie)
+	setCookieEnabled = false
+}
+
+func httpErr(w http.ResponseWriter, msg string, code int) {
+	log.Print(msg)
+	http.Error(w, msg, code)
+}

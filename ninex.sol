@@ -125,6 +125,8 @@ contract Ninex {
     evGuess(msg.sender, commitment, digits, msg.value);
   }
 
+  event evNewCommitment(bytes32 commitment);
+
   function setCommitment(bytes32 commitment) external {
     require (msg.sender == mOwner);
     require (mGuesses.length == 0);
@@ -138,10 +140,13 @@ contract Ninex {
     mRevealedTime = 0;
     mFirstGuessTime = 0;
     mLastGuessTime = 0;
+
+    evNewCommitment(commitment);
   }
 
-  event evWin(address guesser, uint value, bytes digits, bytes32 commitment, bytes preimage);
-  event evLose(address guesser, bytes digits, bytes32 commitment, bytes preimage);
+  event evWin(address guesser, uint value, bytes digits, bytes32 commitment);
+  event evLose(address guesser, bytes digits, bytes32 commitment);
+  event evRevealed(bytes32 commitment, bytes preimage);
 
   function reveal(bytes preimage) external {
     require (msg.sender == mOwner);
@@ -172,15 +177,17 @@ contract Ninex {
       }
       if (digitsMatch) {
         mPayments[mGuesses[i].guesser] += mGuesses[i].escrow;
-        evWin(mGuesses[i].guesser, mGuesses[i].escrow, mGuesses[i].digits, mCommitment, preimage);
+        evWin(mGuesses[i].guesser, mGuesses[i].escrow, mGuesses[i].digits, mCommitment);
       } else {
         mBank += mGuesses[i].escrow;
-        evLose(mGuesses[i].guesser, mGuesses[i].digits, mCommitment, preimage);
+        evLose(mGuesses[i].guesser, mGuesses[i].digits, mCommitment);
       }
     }
     mGuesses.length = 0;
 
     mRevealedTime = now;
+
+    evRevealed(mCommitment, preimage);
   }
 
   event evWinByDefault(address guesser, uint value);

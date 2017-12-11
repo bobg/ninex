@@ -10,17 +10,8 @@ import (
 
 	"github.com/ethereum/go-ethereum/accounts/abi"
 	"github.com/ethereum/go-ethereum/accounts/abi/bind"
-	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/ethclient"
 )
-
-// This must track the definition of evGuess in ninex.sol
-type EvGuess struct {
-	Guesser    common.Address
-	Commitment [32]byte
-	Digits     []byte
-	Stake      *big.Int
-}
 
 func guess(args []string) {
 	fs, ethURL := newFlagSet()
@@ -68,7 +59,7 @@ func guess(args []string) {
 	must(err)
 
 	for _, item := range receipt.Logs {
-		var ev EvGuess
+		var ev ninex.EvGuess
 		if err = a.Unpack(&ev, "evGuess", item.Data); err == nil {
 			log.Print("Guess:")
 			log.Printf("  guesser: %x", ev.Guesser[:])
