@@ -2,6 +2,7 @@ package main
 
 import (
 	"bytes"
+	"context"
 	"log"
 	"ninex"
 
@@ -9,7 +10,7 @@ import (
 	"github.com/ethereum/go-ethereum/core/types"
 )
 
-func filter(logCh <-chan types.Log, errCh <-chan error) {
+func filter(ctx context.Context, logCh <-chan types.Log, errCh <-chan error) {
 	abi, err := abi.JSON(bytes.NewReader([]byte(ninex.NinexABI)))
 	if err != nil {
 		log.Fatalf("instantiating ABI: %s", err)
@@ -17,6 +18,10 @@ func filter(logCh <-chan types.Log, errCh <-chan error) {
 
 	for {
 		select {
+		case <-ctx.Done():
+			log.Printf("filter loop exiting: %s", ctx.Err())
+			return
+
 		case l, ok := <-logCh:
 			if !ok {
 				log.Fatal("subscription channel closed")

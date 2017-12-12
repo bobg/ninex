@@ -9,7 +9,7 @@ import (
 	"path"
 )
 
-func serve(listen string, pingCh chan<- struct{}) {
+func serve(ctx context.Context, listen string, pingCh chan<- struct{}) {
 	mux := http.NewServeMux()
 	srv := &http.Server{
 		Addr:    listen,
@@ -22,25 +22,24 @@ func serve(listen string, pingCh chan<- struct{}) {
 	})
 	if setCookiePath != "" {
 		mux.HandleFunc(setCookiePath, setCookie)
-		mux.HandleFunc("/admin/shutdown", shutdown(srv))
+		mux.HandleFunc("/admin/shutdown", shutdown(ctx, srv))
 		mux.HandleFunc("/admin/ping", ping(pingCh))
 	}
 
 	err := srv.ListenAndServe()
 	if err == http.ErrServerClosed {
 		log.Print("orderly shutdown")
+		ctxCancel()
 		return
 	}
 	log.Fatal(err)
 }
 
-func shutdown(srv *http.Server) http.HandlerFunc {
+func shutdown(ctx context.Context, srv *http.Server) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		ctx := context.Background()
 		err := srv.Shutdown(ctx)
 		if err != nil {
 			httpErr(w, err.Error(), http.StatusInternalServerError)
-			return
 		}
 	}
 }

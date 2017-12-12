@@ -26,6 +26,7 @@ var (
 	contractAddr  common.Address
 	contentDir    *string
 	transactOpts  *bind.TransactOpts
+	ctxCancel     context.CancelFunc
 
 	callOpts = new(bind.CallOpts)
 )
@@ -97,25 +98,39 @@ func main() {
 	query := ethereum.FilterQuery{
 		Addresses: []common.Address{contractAddr},
 	}
+
 	ctx := context.Background()
+	ctx, ctxCancel = context.WithCancel(ctx)
+
 	sub, err := ethClient.SubscribeFilterLogs(ctx, query, logCh)
 	if err != nil {
 		log.Fatalf("subscribing to log filter: %s", err)
 	}
 
-	go filter(logCh, sub.Err())
+	go filter(ctx, logCh, sub.Err())
 
 	pingCh := make(chan struct{}, 10)
 
-	go serve(*listen, pingCh)
-	go poll(pingCh)
+	go serve(ctx, *listen, pingCh)
+	go poll(ctx, pingCh)
 
 	pingCh <- struct{}{}
 
-	for range time.Tick(time.Minute) {
+	var (
+		looping = true
+		ticker  = time.Tick(time.Minute)
+	)
+	for looping {
 		select {
-		case pingCh <- struct{}{}:
-		default:
+		case <-ctx.Done():
+			log.Printf("main loop exiting: %s", ctx.Err())
+			looping = false
+
+		case <-ticker:
+			select {
+			case pingCh <- struct{}{}:
+			default:
+			}
 		}
 	}
 }
