@@ -22,8 +22,8 @@ func serve(ctx context.Context, listen string, pingCh chan<- struct{}) {
 	})
 	if setCookiePath != "" {
 		mux.HandleFunc(setCookiePath, setCookie)
-		mux.HandleFunc("/admin/shutdown", shutdown(ctx, srv))
-		mux.HandleFunc("/admin/ping", ping(pingCh))
+		mux.HandleFunc("/admin/shutdown", adminHandler(shutdown(ctx, srv)))
+		mux.HandleFunc("/admin/ping", adminHandler(ping(pingCh)))
 	}
 
 	err := srv.ListenAndServe()
@@ -33,6 +33,21 @@ func serve(ctx context.Context, listen string, pingCh chan<- struct{}) {
 		return
 	}
 	log.Fatal(err)
+}
+
+func adminHandler(next http.HandlerFunc) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		c, err := r.Cookie("admin")
+		if err != nil {
+			httpErr(w, "missing admin cookie", http.StatusForbidden)
+			return
+		}
+		if c.Value != hex.EncodeToString(adminSecret[:]) {
+			httpErr(w, "invalid admin cookie", http.StatusForbidden)
+			return
+		}
+		next(w, r)
+	}
 }
 
 func shutdown(ctx context.Context, srv *http.Server) http.HandlerFunc {
