@@ -14,7 +14,21 @@
     </div>
 
     <div id="okguess" style="display: none">
-      Commitment: <span id="commitment"></span>
+      <p>Commitment: <span id="commitment"></span></p>
+      <form>
+        <p>
+          <label for="digits">Guess</label>
+          <input type="text" id="digits" name="digits" onchange="Ninex.change();" onkeyup="Ninex.change();">
+        </p>
+        <p>
+          <label for="stake">Stake</label>
+          <input type="text" id="stake" name="stake" onchange="Ninex.change();" onkeyup="Ninex.change();">
+        </p>
+        <p id="stakeinfo" style="display: none">
+          Maximum stake is <span id="maxstake"></span>.
+          Payout is <span id="payout"></span>.
+        </p>
+      </form>
     </div>
 
     <div id="noguess" style="display: none">

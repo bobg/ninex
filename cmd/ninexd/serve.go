@@ -5,11 +5,11 @@ import (
 	"encoding/hex"
 	"encoding/json"
 	"fmt"
+	"html/template"
 	"log"
 	"net/http"
 	"ninex"
 	"path"
-	"text/template"
 )
 
 func serve(ctx context.Context, listen string, pingCh chan<- struct{}) {
