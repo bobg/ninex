@@ -26,7 +26,7 @@ func poll(ctx context.Context, pingCh <-chan struct{}) {
 
 			now := time.Now().Unix()
 
-			if info.commitmentSetTime == 0 || (info.revealedTime > 0 && now >= (info.revealedTime+info.afterRevealDelaySecs)) {
+			if info.CommitmentSetTime == 0 || (info.RevealedTime > 0 && now >= (info.RevealedTime+info.AfterRevealDelaySecs)) {
 				// set commitment
 
 				var preimage [78]byte
@@ -53,7 +53,7 @@ func poll(ctx context.Context, pingCh <-chan struct{}) {
 				continue
 			}
 
-			if info.commitmentSetTime > 0 && info.revealedTime == 0 && info.lastGuessTime > 0 && now >= (info.lastGuessTime+info.afterLastGuessDelaySecs) && now >= (info.firstGuessTime+info.guessWindowSecs) && now < (info.firstGuessTime+info.revealTimeoutSecs) {
+			if info.CommitmentSetTime > 0 && info.RevealedTime == 0 && info.LastGuessTime > 0 && now >= (info.LastGuessTime+info.AfterLastGuessDelaySecs) && now >= (info.FirstGuessTime+info.GuessWindowSecs) && now < (info.FirstGuessTime+info.RevealTimeoutSecs) {
 				// reveal preimage
 
 				preimage, err := getCommittedPreimage()
@@ -71,7 +71,7 @@ func poll(ctx context.Context, pingCh <-chan struct{}) {
 				continue
 			}
 
-			if info.commitmentSetTime > 0 && info.revealedTime == 0 && info.firstGuessTime > 0 && now >= (info.firstGuessTime+info.revealTimeoutSecs) {
+			if info.CommitmentSetTime > 0 && info.RevealedTime == 0 && info.FirstGuessTime > 0 && now >= (info.FirstGuessTime+info.RevealTimeoutSecs) {
 				// invoke a timeout
 
 				_, err := nx.Timeout(transactOpts)

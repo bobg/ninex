@@ -27,6 +27,7 @@ var (
 	contentDir    *string
 	transactOpts  *bind.TransactOpts
 	ctxCancel     context.CancelFunc
+	ethURL        *string
 
 	callOpts = new(bind.CallOpts)
 )
@@ -34,12 +35,12 @@ var (
 func main() {
 	var (
 		admin           = flag.String("admin", "", "admin e-mail address")
-		listen          = flag.String("listen", ":80", "address for http requests")
+		listen          = flag.String("listen", "localhost:80", "address for http requests")
 		contractAddrStr = flag.String("contract", "", "deployed contract address (hex)")
-		ethURL          = flag.String("ethurl", "http://localhost:8545/", "ethereum RPC URL")
 		keyfile         = flag.String("keyfile", "", "key file")
 		passphrase      = flag.String("passphrase", "", "passphrase")
 	)
+	ethURL = flag.String("ethurl", "http://localhost:8545/", "ethereum RPC URL")
 	contentDir = flag.String("content", ".", "directory with web assets")
 
 	flag.Parse()

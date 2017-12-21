@@ -1,0 +1,28 @@
+<html>
+  <head>
+    <title>Ninex</title>
+    <script src="/web3.js"></script>
+    <script src="/ui.js"></script>
+  </head>
+  <body onload="Ninex.init('{{ .infoURL }}');">
+    <h1>Ninex</h1>
+
+    <div id="initializing">Initializing...</div>
+
+    <div id="nocommitment" style="display: none">
+      No commitment at the moment. Check back soon.
+    </div>
+
+    <div id="okguess" style="display: none">
+      Commitment: <span id="commitment"></span>
+    </div>
+
+    <div id="noguess" style="display: none">
+      Guess window is closed, preimage will be revealed soon.
+    </div>
+
+    <div id="stale" style="display: none">
+      Commitment is stale.
+    </div>
+  </body>
+</html>

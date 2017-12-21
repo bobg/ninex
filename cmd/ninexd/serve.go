@@ -3,10 +3,13 @@ package main
 import (
 	"context"
 	"encoding/hex"
-	"html/template"
+	"encoding/json"
+	"fmt"
 	"log"
 	"net/http"
+	"ninex"
 	"path"
+	"text/template"
 )
 
 func serve(ctx context.Context, listen string, pingCh chan<- struct{}) {
@@ -16,7 +19,8 @@ func serve(ctx context.Context, listen string, pingCh chan<- struct{}) {
 		Handler: mux,
 	}
 
-	mux.HandleFunc("/", serveHome)
+	mux.HandleFunc("/", serveHome(listen))
+	mux.HandleFunc("/info", serveInfo)
 	mux.HandleFunc("/ui.js", func(w http.ResponseWriter, r *http.Request) {
 		http.ServeFile(w, r, path.Join(*contentDir, "ui.js"))
 	})
@@ -65,17 +69,36 @@ func ping(pingCh chan<- struct{}) http.HandlerFunc {
 	}
 }
 
-func serveHome(w http.ResponseWriter, r *http.Request) {
-	tmplName := path.Join(*contentDir, "home.tmpl")
-	tmpl, err := template.ParseFiles(tmplName)
+func serveHome(addr string) http.HandlerFunc {
+	infoURL := fmt.Sprintf("http://%s/info", addr)
+	return func(w http.ResponseWriter, r *http.Request) {
+		tmplName := path.Join(*contentDir, "home.html.tmpl")
+		tmpl, err := template.ParseFiles(tmplName)
+		if err != nil {
+			httpErr(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+		tmplData := map[string]interface{}{
+			"contractAddr": hex.EncodeToString(contractAddr[:]),
+			"infoURL":      infoURL,
+			"abi":          ninex.NinexABI,
+		}
+		err = tmpl.Execute(w, tmplData)
+		if err != nil {
+			httpErr(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+	}
+}
+
+func serveInfo(w http.ResponseWriter, r *http.Request) {
+	info, err := getInfo()
 	if err != nil {
 		httpErr(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
-	tmplData := map[string]interface{}{
-		"contract_addr": hex.EncodeToString(contractAddr[:]),
-	}
-	err = tmpl.Execute(w, tmplData)
+	w.Header().Set("Content-Type", "application/json; charset=utf-8")
+	err = json.NewEncoder(w).Encode(info)
 	if err != nil {
 		httpErr(w, err.Error(), http.StatusInternalServerError)
 		return

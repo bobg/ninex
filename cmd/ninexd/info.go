@@ -8,21 +8,22 @@ import (
 )
 
 type info struct {
-	commitment [32]byte
-	bank       *big.Int
+	Commitment hexBytes `json:"commitment"`
+	Preimage   string   `json:"preimage"`
+	Bank       *big.Int `json:"bank"`
 
-	commitmentSetTime int64
-	firstGuessTime    int64
-	lastGuessTime     int64
-	revealedTime      int64
+	CommitmentSetTime int64 `json:"commitment_set_time"`
+	FirstGuessTime    int64 `json:"first_guess_time"`
+	LastGuessTime     int64 `json:"last_guess_time"`
+	RevealedTime      int64 `json:"revealed_time"`
 
-	afterCommitmentDelaySecs int64
-	guessWindowSecs          int64
-	afterLastGuessDelaySecs  int64
-	afterRevealDelaySecs     int64
-	revealTimeoutSecs        int64
+	AfterCommitmentDelaySecs int64 `json:"after_commitment_delay_secs"`
+	GuessWindowSecs          int64 `json:"guess_window_secs"`
+	AfterLastGuessDelaySecs  int64 `json:"after_last_guess_delay_secs"`
+	AfterRevealDelaySecs     int64 `json:"after_reveal_delay_secs"`
+	RevealTimeoutSecs        int64 `json:"reveal_timeout_secs"`
 
-	minGuessWei *big.Int
+	MinGuessWei *big.Int `json:"min_guess_wei"`
 }
 
 func getInfo() (*info, error) {
@@ -30,53 +31,59 @@ func getInfo() (*info, error) {
 
 	var err error
 
-	info.commitmentSetTime, err = secs(nx.MCommitmentSetTime)
+	info.CommitmentSetTime, err = secs(nx.MCommitmentSetTime)
 	if err != nil {
 		return nil, err
 	}
-	info.firstGuessTime, err = secs(nx.MFirstGuessTime)
+	info.FirstGuessTime, err = secs(nx.MFirstGuessTime)
 	if err != nil {
 		return nil, err
 	}
-	info.lastGuessTime, err = secs(nx.MLastGuessTime)
+	info.LastGuessTime, err = secs(nx.MLastGuessTime)
 	if err != nil {
 		return nil, err
 	}
-	info.revealedTime, err = secs(nx.MRevealedTime)
-	if err != nil {
-		return nil, err
-	}
-
-	info.afterCommitmentDelaySecs, err = secs(nx.MAfterCommitmentDelaySecs)
-	if err != nil {
-		return nil, err
-	}
-	info.guessWindowSecs, err = secs(nx.MGuessWindowSecs)
-	if err != nil {
-		return nil, err
-	}
-	info.afterLastGuessDelaySecs, err = secs(nx.MAfterLastGuessDelaySecs)
-	if err != nil {
-		return nil, err
-	}
-	info.afterRevealDelaySecs, err = secs(nx.MAfterRevealDelaySecs)
-	if err != nil {
-		return nil, err
-	}
-	info.revealTimeoutSecs, err = secs(nx.MRevealTimeoutSecs)
+	info.RevealedTime, err = secs(nx.MRevealedTime)
 	if err != nil {
 		return nil, err
 	}
 
-	info.commitment, err = nx.MCommitment(callOpts)
+	info.AfterCommitmentDelaySecs, err = secs(nx.MAfterCommitmentDelaySecs)
 	if err != nil {
 		return nil, err
 	}
-	info.bank, err = nx.MBank(callOpts)
+	info.GuessWindowSecs, err = secs(nx.MGuessWindowSecs)
 	if err != nil {
 		return nil, err
 	}
-	info.minGuessWei, err = nx.MMinGuessWei(callOpts)
+	info.AfterLastGuessDelaySecs, err = secs(nx.MAfterLastGuessDelaySecs)
+	if err != nil {
+		return nil, err
+	}
+	info.AfterRevealDelaySecs, err = secs(nx.MAfterRevealDelaySecs)
+	if err != nil {
+		return nil, err
+	}
+	info.RevealTimeoutSecs, err = secs(nx.MRevealTimeoutSecs)
+	if err != nil {
+		return nil, err
+	}
+
+	commitment, err := nx.MCommitment(callOpts)
+	if err != nil {
+		return nil, err
+	}
+	info.Commitment = hexBytes(commitment[:])
+	preimage, err := nx.MPreimage(callOpts)
+	if err != nil {
+		return nil, err
+	}
+	info.Preimage = string(preimage)
+	info.Bank, err = nx.MBank(callOpts)
+	if err != nil {
+		return nil, err
+	}
+	info.MinGuessWei, err = nx.MMinGuessWei(callOpts)
 
 	return info, err
 }

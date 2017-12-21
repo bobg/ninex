@@ -10,6 +10,11 @@ contract Ninex {
   // if N is 1, which is where the name of the contract comes from.)
   bytes32 public mCommitment;
 
+  // Preimage is the string that produces mCommitment. It's set only
+  // after reveal is called and is reset when setCommitment() is
+  // called.
+  bytes public mPreimage;
+
   // Amount available for covering new guesses and for withdrawals.
   // Invariant: bank+escrow+payments == contract balance
   uint public mBank;
@@ -134,6 +139,7 @@ contract Ninex {
     require ((mRevealedTime == 0) || (now >= mRevealedTime + mAfterRevealDelaySecs));
 
     mCommitment = commitment;
+    mPreimage = '';
 
     mCommitmentSetTime = now;
 
@@ -186,6 +192,7 @@ contract Ninex {
     mGuesses.length = 0;
 
     mRevealedTime = now;
+    mPreimage = preimage;
 
     evRevealed(mCommitment, preimage);
   }

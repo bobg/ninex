@@ -29,6 +29,10 @@ func query(args []string) {
 	must(err)
 	log.Printf("commitment: %x", commitment[:])
 
+	preimage, err := nx.MPreimage(callOpts)
+	must(err)
+	log.Printf("preimage: %s", string(preimage))
+
 	bank, err := nx.MBank(callOpts)
 	must(err)
 	log.Printf("bank: %s", bank)
