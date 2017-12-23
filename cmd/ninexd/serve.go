@@ -4,7 +4,6 @@ import (
 	"context"
 	"encoding/hex"
 	"encoding/json"
-	"fmt"
 	"html/template"
 	"log"
 	"net/http"
@@ -22,16 +21,16 @@ func serve(ctx context.Context, listen string, pingCh chan<- struct{}) {
 		Handler: mux,
 	}
 
-	mux.HandleFunc("/", serveHome(listen))
-	mux.HandleFunc("/info", serveInfo)
-	mux.HandleFunc("/ui.js", func(w http.ResponseWriter, r *http.Request) {
+	mux.HandleFunc("/", logHandler(serveHome))
+	mux.HandleFunc("/info", logHandler(serveInfo))
+	mux.HandleFunc("/ui.js", logHandler(func(w http.ResponseWriter, r *http.Request) {
 		http.ServeFile(w, r, path.Join(*contentDir, "ui.js"))
-	})
-	mux.HandleFunc("/qr", serveQR)
+	}))
+	mux.HandleFunc("/qr", logHandler(serveQR))
 	if setCookiePath != "" {
-		mux.HandleFunc(setCookiePath, setCookie)
-		mux.HandleFunc("/admin/shutdown", adminHandler(shutdown(ctx, srv)))
-		mux.HandleFunc("/admin/ping", adminHandler(ping(pingCh)))
+		mux.HandleFunc(setCookiePath, logHandler(setCookie))
+		mux.HandleFunc("/admin/shutdown", logHandler(adminHandler(shutdown(ctx, srv))))
+		mux.HandleFunc("/admin/ping", logHandler(adminHandler(ping(pingCh))))
 	}
 
 	err := srv.ListenAndServe()
@@ -41,6 +40,13 @@ func serve(ctx context.Context, listen string, pingCh chan<- struct{}) {
 		return
 	}
 	log.Fatal(err)
+}
+
+func logHandler(next http.HandlerFunc) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		log.Print("serving %s", r.URL)
+		next(w, r)
+	}
 }
 
 func adminHandler(next http.HandlerFunc) http.HandlerFunc {
@@ -73,25 +79,25 @@ func ping(pingCh chan<- struct{}) http.HandlerFunc {
 	}
 }
 
-func serveHome(addr string) http.HandlerFunc {
-	infoURL := fmt.Sprintf("http://%s/info", addr)
-	return func(w http.ResponseWriter, r *http.Request) {
-		tmplName := path.Join(*contentDir, "home.html.tmpl")
-		tmpl, err := template.ParseFiles(tmplName)
-		if err != nil {
-			httpErr(w, err.Error(), http.StatusInternalServerError)
-			return
-		}
-		tmplData := map[string]interface{}{
-			"contractAddr": hex.EncodeToString(contractAddr[:]),
-			"infoURL":      infoURL,
-			"abi":          ninex.NinexABI,
-		}
-		err = tmpl.Execute(w, tmplData)
-		if err != nil {
-			httpErr(w, err.Error(), http.StatusInternalServerError)
-			return
-		}
+func serveHome(w http.ResponseWriter, r *http.Request) {
+	infoURL := *r.URL
+	infoURL.Path = "/info"
+	infoURL.RawPath = "/info"
+	tmplName := path.Join(*contentDir, "home.html.tmpl")
+	tmpl, err := template.ParseFiles(tmplName)
+	if err != nil {
+		httpErr(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	tmplData := map[string]interface{}{
+		"contractAddr": hex.EncodeToString(contractAddr[:]),
+		"infoURL":      infoURL,
+		"abi":          ninex.NinexABI,
+	}
+	err = tmpl.Execute(w, tmplData)
+	if err != nil {
+		httpErr(w, err.Error(), http.StatusInternalServerError)
+		return
 	}
 }
 
