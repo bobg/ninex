@@ -8,8 +8,11 @@ import (
 	"html/template"
 	"log"
 	"net/http"
+	"net/url"
 	"ninex"
 	"path"
+
+	qrcode "github.com/skip2/go-qrcode"
 )
 
 func serve(ctx context.Context, listen string, pingCh chan<- struct{}) {
@@ -24,6 +27,7 @@ func serve(ctx context.Context, listen string, pingCh chan<- struct{}) {
 	mux.HandleFunc("/ui.js", func(w http.ResponseWriter, r *http.Request) {
 		http.ServeFile(w, r, path.Join(*contentDir, "ui.js"))
 	})
+	mux.HandleFunc("/qr", serveQR)
 	if setCookiePath != "" {
 		mux.HandleFunc(setCookiePath, setCookie)
 		mux.HandleFunc("/admin/shutdown", adminHandler(shutdown(ctx, srv)))
@@ -99,6 +103,26 @@ func serveInfo(w http.ResponseWriter, r *http.Request) {
 	}
 	w.Header().Set("Content-Type", "application/json; charset=utf-8")
 	err = json.NewEncoder(w).Encode(info)
+	if err != nil {
+		httpErr(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+}
+
+func serveQR(w http.ResponseWriter, r *http.Request) {
+	q, err := url.QueryUnescape(r.URL.RawQuery)
+	if err != nil {
+		httpErr(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	png, err := qrcode.Encode(q, qrcode.Medium, 256)
+	if err != nil {
+		httpErr(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	w.Header().Set("Content-Type", "image/png")
+	w.Header().Set("Content-Transfer-Encoding", "binary")
+	_, err = w.Write(png)
 	if err != nil {
 		httpErr(w, err.Error(), http.StatusInternalServerError)
 		return

@@ -4,7 +4,7 @@
     <script src="/web3.js"></script>
     <script src="/ui.js"></script>
   </head>
-  <body onload="Ninex.init('{{ .infoURL }}');">
+  <body onload="Ninex.init('{{ .infoURL }}', '{{ .contractAddr }}');">
     <h1>Ninex</h1>
 
     <div id="initializing">Initializing...</div>
@@ -24,11 +24,15 @@
           <label for="stake">Stake</label>
           <input type="text" id="stake" name="stake" onchange="Ninex.change();" onkeyup="Ninex.change();">
         </p>
-        <p id="stakeinfo" style="display: none">
-          Maximum stake is <span id="maxstake"></span>.
-          Payout is <span id="payout"></span>.
-        </p>
       </form>
+      <div id="stakeinfo" style="display: none">
+        Maximum stake is <span id="maxstake"></span>.
+        Payout is <span id="payout"></span>.
+      </div>
+      <div id="reqinfo" style="display: none">
+        <p><span id="requrl"></span></p>
+        <p><img id="qr"></p>
+      </div>
     </div>
 
     <div id="noguess" style="display: none">

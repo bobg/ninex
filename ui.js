@@ -1,6 +1,7 @@
 var Ninex = {
-  init: function(infoURL) {
+  init: function(infoURL, contractAddr) {
     Ninex.infoURL = infoURL;
+    Ninex.contractAddr = contractAddr;
 
     Ninex.initializingEl = document.getElementById('initializing');
     Ninex.nocommitmentEl = document.getElementById('nocommitment');
@@ -13,6 +14,9 @@ var Ninex = {
     Ninex.maxstakeEl = document.getElementById('maxstake');
     Ninex.payoutEl = document.getElementById('payout');
     Ninex.stakeinfoEl = document.getElementById('stakeinfo');
+    Ninex.reqinfoEl = document.getElementById('reqinfo');
+    Ninex.requrlEl = document.getElementById('requrl');
+    Ninex.qrEl = document.getElementById('qr');
 
     var update = function() {
       var now = Math.floor(Date.now()/1000); // seconds since unix epoch
@@ -87,6 +91,7 @@ var Ninex = {
     var digits = Ninex.digitsEl.value;
     if (digits.length == 0) {
       Ninex.stakeinfoEl.style.display = 'none';
+      Ninex.reqinfoEl.style.display = 'none';
     } else {
       Ninex.stakeinfoEl.style.display = 'block';
 
@@ -98,6 +103,11 @@ var Ninex = {
       // xxx check length, check positive integer, check doesn't exceed maxstake
       var payout = stake * (payoutCoeff + 1);
       Ninex.payoutEl.innerHTML = payout;
+
+      var requrl = 'ethereum:0x' + Ninex.contractAddr + '?method=guess&value=' + stake + '&commitment=' + Ninex.ninex.commitment + '&digits=' + digits;
+      Ninex.reqinfoEl.style.display = 'block';
+      Ninex.requrlEl.innerHTML = requrl;
+      Ninex.qrEl.src = '/qr?' + encodeURIComponent(requrl);
     }
   },
 };
