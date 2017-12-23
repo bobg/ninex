@@ -1,6 +1,5 @@
 var Ninex = {
-  init: function(infoURL, contractAddr) {
-    Ninex.infoURL = infoURL;
+  init: function(contractAddr) {
     Ninex.contractAddr = contractAddr;
 
     Ninex.initializingEl = document.getElementById('initializing');
@@ -63,7 +62,7 @@ var Ninex = {
 
         window.setTimeout(update, 60000);
       }, function() {
-        console.log("error");
+        console.log('error');
       });
     };
     update();
@@ -71,7 +70,7 @@ var Ninex = {
   ninex: null,
   setNinex: function(cb, errcb) {
     var xhr = new XMLHttpRequest();
-    xhr.open("GET", Ninex.infoURL, true);
+    xhr.open('GET', '/info', true);
     xhr.onload = function(e) {
       if (xhr.readyState != 4) {
         errcb();

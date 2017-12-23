@@ -44,7 +44,7 @@ func serve(ctx context.Context, listen string, pingCh chan<- struct{}) {
 
 func logHandler(next http.HandlerFunc) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		log.Print("serving %s", r.URL)
+		log.Printf("serving %s", r.URL)
 		next(w, r)
 	}
 }
@@ -80,9 +80,6 @@ func ping(pingCh chan<- struct{}) http.HandlerFunc {
 }
 
 func serveHome(w http.ResponseWriter, r *http.Request) {
-	infoURL := *r.URL
-	infoURL.Path = "/info"
-	infoURL.RawPath = "/info"
 	tmplName := path.Join(*contentDir, "home.html.tmpl")
 	tmpl, err := template.ParseFiles(tmplName)
 	if err != nil {
@@ -91,7 +88,6 @@ func serveHome(w http.ResponseWriter, r *http.Request) {
 	}
 	tmplData := map[string]interface{}{
 		"contractAddr": hex.EncodeToString(contractAddr[:]),
-		"infoURL":      infoURL,
 		"abi":          ninex.NinexABI,
 	}
 	err = tmpl.Execute(w, tmplData)
