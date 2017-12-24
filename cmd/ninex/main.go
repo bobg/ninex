@@ -18,6 +18,7 @@ var commands = map[string]func([]string){
 	"deploy":         deploy,
 	"fund":           fund,
 	"guess":          guess,
+	"payment":        payment,
 	"query":          query,
 	"reveal":         reveal,
 	"set-commitment": setCommitment,
