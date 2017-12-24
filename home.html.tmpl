@@ -1,7 +1,6 @@
 <html>
   <head>
     <title>Ninex</title>
-    <script src="/web3.js"></script>
     <script src="/ui.js"></script>
   </head>
   <body onload="Ninex.init('{{ .contractAddr }}');">
@@ -26,6 +25,7 @@
         </p>
       </form>
       <div id="stakeinfo" style="display: none">
+        Minimum stake is <span id="minstake"></span>.
         Maximum stake is <span id="maxstake"></span>.
         Payout is <span id="payout"></span>.
       </div>

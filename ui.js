@@ -10,6 +10,7 @@ var Ninex = {
     Ninex.commitmentEl = document.getElementById('commitment');
     Ninex.digitsEl = document.getElementById('digits');
     Ninex.stakeEl = document.getElementById('stake');
+    Ninex.minstakeEl = document.getElementById('minstake');
     Ninex.maxstakeEl = document.getElementById('maxstake');
     Ninex.payoutEl = document.getElementById('payout');
     Ninex.stakeinfoEl = document.getElementById('stakeinfo');
@@ -93,6 +94,8 @@ var Ninex = {
       Ninex.reqinfoEl.style.display = 'none';
     } else {
       Ninex.stakeinfoEl.style.display = 'block';
+
+      Ninex.minstakeEl.innerHTML = Ninex.ninex.min_guess_wei;
 
       var payoutCoeff = 9 * Math.pow(10, digits.length-1) - 1;
       var maxstake = Math.floor(Ninex.ninex.bank / payoutCoeff);
